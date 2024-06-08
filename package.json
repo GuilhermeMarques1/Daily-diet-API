@@ -1,0 +1,21 @@
+{
+  "name": "Daily-diet-API",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:GuilhermeMarques1/Daily-diet-API.git",
+  "author": "GuilhermeMarques1 <g-marques@outlook.com>",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "lint": "eslint src --ext .ts --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.2",
+    "tsx": "^4.14.0",
+    "typescript": "5.3"
+  },
+  "dependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
+    "fastify": "^4.27.0"
+  }
+}
