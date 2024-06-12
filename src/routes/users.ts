@@ -29,7 +29,7 @@ export async function userRoutes(app: FastifyInstance) {
 
       return reply.status(201).send()
     } catch (error) {
-      console.error(error)
+      console.error('Error to create user: ', error)
       return reply.status(500).send('Error to create user')
     }
   })
