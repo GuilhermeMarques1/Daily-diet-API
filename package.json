@@ -9,12 +9,16 @@
   "scripts": {
     "lint": "eslint src --ext .ts --fix",
     "dev": "tsx watch src/server.ts",
+    "test": "vitest",
     "knex": "node --no-warnings --import tsx ./node_modules/.bin/knex"
   },
   "devDependencies": {
     "@types/node": "^20.14.2",
+    "@types/supertest": "^6.0.2",
+    "supertest": "^7.0.0",
     "tsx": "^4.14.0",
-    "typescript": "5.3"
+    "typescript": "5.3",
+    "vitest": "^1.6.0"
   },
   "dependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
