@@ -1,6 +1,7 @@
 # Requisitos Funcionais: 
   - [x] Deve ser possível criar um usuário
   - [ ] Deve ser possível cadastrar uma refeição
+  - [ ] Deve ser possível editar uma refeição
   - [ ] Deve ser possível apagar uma refeição
   - [ ] Deve ser possível listar todas as refeições de um usuário
   - [ ] Deve ser possível buscar uma refeição específica
