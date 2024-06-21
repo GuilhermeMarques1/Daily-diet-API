@@ -49,10 +49,15 @@ export async function mealRoutes(app: FastifyInstance) {
       const { id } = mealUpdateParamsSchema.parse(req.params)
 
       if (!id) {
-        return reply.status(400).send('Update id is missing')
+        return reply.status(400).send('Id is missing')
       }
 
-      const mealToUpdate = await knex('meals').where('id', id).first()
+      const { userId } = req.cookies
+
+      const mealToUpdate = await knex('meals')
+        .where('id', id)
+        .andWhere('user_id', userId)
+        .first()
 
       if (!mealToUpdate) {
         return reply.status(400).send('Meal was not found')
