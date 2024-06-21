@@ -7,6 +7,19 @@ import { checkUserIdIsValid } from '../middleware/check-user-id-is-valid'
 export async function mealRoutes(app: FastifyInstance) {
   app.addHook('preHandler', checkUserIdIsValid)
 
+  app.get('/', async (req, reply) => {
+    try {
+      const { userId } = req.cookies
+
+      const meals = (await knex('meals').where('user_id', userId)) || []
+
+      return reply.status(200).send(meals)
+    } catch (error) {
+      console.error('Error to get all meals: ', error)
+      return reply.status(500).send('Error to get all meals')
+    }
+  })
+
   app.post('/', async (req, reply) => {
     try {
       const mealBodySchema = z.object({
