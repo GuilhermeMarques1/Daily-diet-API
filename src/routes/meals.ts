@@ -39,4 +39,46 @@ export async function mealRoutes(app: FastifyInstance) {
       return reply.status(500).send('Error to create meal')
     }
   })
+
+  app.put('/:id', async (req, reply) => {
+    try {
+      const mealUpdateParamsSchema = z.object({
+        id: z.string(),
+      })
+
+      const { id } = mealUpdateParamsSchema.parse(req.params)
+
+      if (!id) {
+        return reply.status(400).send('Update id is missing')
+      }
+
+      const mealToUpdate = await knex('meals').where('id', id).first()
+
+      if (!mealToUpdate) {
+        return reply.status(400).send('Meal was not found')
+      }
+
+      const mealUpdateBodySchema = z.object({
+        name: z.string(),
+        description: z.string(),
+        date: z.string().date(),
+        time: z.string().time(),
+        diet: z.boolean(),
+      })
+
+      const { name, description, date, time, diet } =
+        mealUpdateBodySchema.parse(req.body)
+
+      await knex('meals').where('id', id).update({
+        name,
+        description,
+        date,
+        time,
+        diet,
+      })
+    } catch (error) {
+      console.error('Error to update meal: ', error)
+      return reply.status(500).send('Error to update meal')
+    }
+  })
 }
