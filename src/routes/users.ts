@@ -57,7 +57,10 @@ export async function userRoutes(app: FastifyInstance) {
       }
 
       const userId = user.id
-      reply.cookie('userId', userId)
+      reply.cookie('userId', userId, {
+        path: '/',
+        maxAge: 60 * 60 * 24 * 2, // (2 days)
+      })
 
       return reply.status(200).send()
     } catch (error) {
