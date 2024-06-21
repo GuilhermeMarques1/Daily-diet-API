@@ -81,4 +81,34 @@ export async function mealRoutes(app: FastifyInstance) {
       return reply.status(500).send('Error to update meal')
     }
   })
+
+  app.delete('/:id', async (req, reply) => {
+    try {
+      const mealDeleteParamsSchema = z.object({
+        id: z.string(),
+      })
+
+      const { id } = mealDeleteParamsSchema.parse(req.params)
+
+      if (!id) {
+        return reply.status(400).send('Id is missing')
+      }
+
+      const { userId } = req.cookies
+
+      const mealToDelete = await knex('meals')
+        .where('id', id)
+        .andWhere('user_id', userId)
+        .first()
+
+      if (!mealToDelete) {
+        return reply.status(400).send('Meal was not found')
+      }
+
+      await knex('meals').where('id', id).delete()
+    } catch (error) {
+      console.error('Error to delete meal', error)
+      return reply.status(500).send('Error to delete meal')
+    }
+  })
 }
