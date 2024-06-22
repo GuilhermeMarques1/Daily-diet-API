@@ -164,4 +164,44 @@ describe('Meals routes', () => {
       diet: 1,
     })
   })
+
+  it('should delete a meal', async () => {
+    await supertest(app.server)
+      .post('/users')
+      .send({
+        name: 'User test',
+        email: 'test@dev.com',
+        password: 'pass123',
+      })
+      .expect(201)
+
+    const loginUserResponse = await supertest(app.server)
+      .post('/users/login')
+      .send({
+        email: 'test@dev.com',
+        password: 'pass123',
+      })
+      .expect(200)
+
+    const cookies = loginUserResponse.get('Set-Cookie') || []
+
+    const createMealResponse = await supertest(app.server)
+      .post('/meals')
+      .set('Cookie', cookies)
+      .send({
+        name: 'meal 1',
+        description: 'lorem ipsum',
+        date: '2024-06-21',
+        time: '15:40:00',
+        diet: true,
+      })
+      .expect(201)
+
+    const { id } = createMealResponse.body
+
+    await supertest(app.server)
+      .delete(`/meals/${id}`)
+      .set('Cookie', cookies)
+      .expect(200)
+  })
 })
