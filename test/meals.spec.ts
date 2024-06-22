@@ -116,4 +116,52 @@ describe('Meals routes', () => {
       }),
     ])
   })
+
+  it('should get specif meal', async () => {
+    await supertest(app.server)
+      .post('/users')
+      .send({
+        name: 'User test',
+        email: 'test@dev.com',
+        password: 'pass123',
+      })
+      .expect(201)
+
+    const loginUserResponse = await supertest(app.server)
+      .post('/users/login')
+      .send({
+        email: 'test@dev.com',
+        password: 'pass123',
+      })
+      .expect(200)
+
+    const cookies = loginUserResponse.get('Set-Cookie') || []
+
+    const createMealResponse = await supertest(app.server)
+      .post('/meals')
+      .set('Cookie', cookies)
+      .send({
+        name: 'meal 1',
+        description: 'lorem ipsum',
+        date: '2024-06-21',
+        time: '15:40:00',
+        diet: true,
+      })
+      .expect(201)
+
+    const { id } = createMealResponse.body
+
+    const getMealResponse = await supertest(app.server)
+      .get(`/meals/${id}`)
+      .set('Cookie', cookies)
+
+    expect(getMealResponse.body).toEqual({
+      id,
+      name: 'meal 1',
+      description: 'lorem ipsum',
+      date: '2024-06-21',
+      time: '15:40:00',
+      diet: 1,
+    })
+  })
 })
