@@ -11,7 +11,10 @@ export async function mealRoutes(app: FastifyInstance) {
     try {
       const { userId } = req.cookies
 
-      const meals = (await knex('meals').where('user_id', userId)) || []
+      const meals =
+        (await knex('meals')
+          .select('id', 'name', 'description', 'date', 'time', 'diet')
+          .where('user_id', userId)) || []
 
       return reply.status(200).send(meals)
     } catch (error) {
@@ -31,6 +34,7 @@ export async function mealRoutes(app: FastifyInstance) {
       const { userId } = req.cookies
 
       const meal = await knex('meals')
+        .select('id', 'name', 'description', 'date', 'time', 'diet')
         .where('id', id)
         .andWhere('user_id', userId)
 
