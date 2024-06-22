@@ -37,6 +37,7 @@ export async function mealRoutes(app: FastifyInstance) {
         .select('id', 'name', 'description', 'date', 'time', 'diet')
         .where('id', id)
         .andWhere('user_id', userId)
+        .first()
 
       return reply.status(200).send(meal)
     } catch (error) {}
