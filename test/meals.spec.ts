@@ -117,7 +117,7 @@ describe('Meals routes', () => {
     ])
   })
 
-  it('should get specif meal', async () => {
+  it('should get specific meal', async () => {
     await supertest(app.server)
       .post('/users')
       .send({
