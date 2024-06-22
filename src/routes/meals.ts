@@ -57,9 +57,10 @@ export async function mealRoutes(app: FastifyInstance) {
       )
 
       const { userId } = req.cookies
+      const id = randomUUID()
 
       await knex('meals').insert({
-        id: randomUUID(),
+        id,
         name,
         description,
         date,
@@ -68,7 +69,9 @@ export async function mealRoutes(app: FastifyInstance) {
         user_id: userId,
       })
 
-      return reply.status(201).send()
+      return reply.status(201).send({
+        id,
+      })
     } catch (error) {
       console.error('Error to create meal: ', error)
       return reply.status(500).send('Error to create meal')
